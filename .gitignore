@@ -1,0 +1,52 @@
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.fleet
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+Homestead.json
+Homestead.yaml
+Thumbs.db
+# Laravel Specific
+/vendor
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/storage/app/public
+/storage/framework/*
+/storage/logs/*
+
+# Vite
+/public/build
+/build
+
+# Composer
+composer.lock
+
+# NPM
+package-lock.json
+
+# dotenv
+.env
+.env.* # kalau kamu punya .env.local dsb
+
+# IDE/Editor
+.idea
+.vscode
+*.swp
