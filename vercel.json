@@ -1,41 +1,33 @@
 {
-  "version": 2,
-     "functions": {
+    "version": 2,
+    "functions": {
         "api/index.php": {
-          "runtime": "vercel-php@0.6.0"
+            "runtime": "vercel-php@0.6.0"
         }
     },
-  "routes": [
+    "routes": [
+        {
+            "src": "/img/(.*)",
+            "dest": "/public/img/"
+        },
         {
             "src": "/(.*)",
             "dest": "/api/index.php"
-        },
-        {
-            "src": "/thumbnail/(.*)",
-            "dest": "/storage/public/"
-        },
-                {
-            "src": "/contents/(.*)",
-            "dest": "/storage/public/"
-        },
-                {
-            "src": "/pdfs/(.*)",
-            "dest": "/storage/public/"
-          }
-
-  ],
-  "env": {
-    "APP_ENV": "production",
-    "APP_KEY": "APP_KEY=base64:SF2/YC5Le4t4J3lLCnupdUlAwoRGBYTUdYHxQHQa/38=",
-    "APP_URL": "https://education-platform-murex-five.vercel.app",
-    "APP_DEBUG": "false",
-    "DB_CONNECTION": "pgsql",
-    "DB_HOST": "postgresql://postgres:andre123@db.mgwprxsapjupfsckkqgo.supabase.co:5432/postgres",
-    "DB_PORT": "5432",
-    "DB_DATABASE": "education_platform",
-    "DB_USERNAME": "postgres",
-    "DB_PASSWORD": "andre123"
-  },
-   "outputDirectory": "public"
-
+        }
+    ],
+    "env": {
+        "APP_ENV": "production",
+        "APP_DEBUG": "true",
+        "APP_URL": "https://education-platform-murex-five.vercel.app/",
+        "APP_CONFIG_CACHE": "/tmp/config.php",
+        "APP_EVENTS_CACHE": "/tmp/events.php",
+        "APP_PACKAGES_CACHE": "/tmp/packages.php",
+        "APP_ROUTES_CACHE": "/tmp/routes.php",
+        "APP_SERVICES_CACHE": "/tmp/services.php",
+        "VIEW_COMPILED_PATH": "/tmp",
+        "CACHE_DRIVER": "array",
+        "LOG_CHANNEL": "stderr",
+        "SESSION_DRIVER": "cookie"
+    },
+    "outputDirectory": "public"
 }
