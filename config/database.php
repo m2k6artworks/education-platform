@@ -94,7 +94,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'laravel',
-            'schema' => env('DB_SCHEMA', 'public'),  // Tambahkan baris ini
+            'schema' => env('DB_SCHEMA', 'laravel'),  // Tambahkan baris ini
             'sslmode' => 'disable',
         ],
 
