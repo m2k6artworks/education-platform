@@ -6,6 +6,8 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeJoinedCourseController;
+use App\Http\Controllers\CreatorDashboardController;
+use App\Http\Controllers\UserCourseController;
 
 // Halaman utama (Home)
 Route::get('/', [CourseController::class, 'index'])->name('home');
@@ -41,6 +43,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/courses/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
         Route::put('/courses/{course}', [CourseController::class, 'update'])->name('courses.update');
         Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
+    });
+
+    // Dashboard Creator 
+    Route::middleware('role:creator')->prefix('creator')->group(function () {
+    Route::get('/dashboard', [CreatorDashboardController::class, 'index'])->name('creator.dashboard');
+    Route::get('/courses/{course}/edit', [CreatorDashboardController::class, 'edit'])->name('creator.courses.edit');
+    Route::put('/courses/{course}', [CreatorDashboardController::class, 'update'])->name('creator.courses.update');
+    Route::delete('/courses/{course}', [CreatorDashboardController::class, 'destroy'])->name('creator.courses.destroy');
+    });
+
+    //akses user ke my course
+    Route::middleware('role:user')->prefix('user')->group(function () {
+    Route::get('/my-courses', [UserCourseController::class, 'index'])->name('user.my-courses');
+    Route::post('/my-courses/{course}/unenroll', [UserCourseController::class, 'unenroll'])->name('user.courses.unenroll');
     });
 
     // User submissions

@@ -1,4 +1,4 @@
-@extends(auth()->check() && auth()->user()->hasAnyRole(['admin', 'creator']) ? 'layouts.guest' : 'layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <section class="relative isolate px-6 pt-14 lg:px-8">
