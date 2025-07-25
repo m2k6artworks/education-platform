@@ -34,8 +34,7 @@
         {
             "src": "/assets/(.*)",
             "dest": "/public/assets/"
-        }
-        
+        } 
     ],
     "env": {
         "APP_ENV": "production",
