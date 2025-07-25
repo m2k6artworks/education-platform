@@ -1,5 +1,9 @@
 {
     "version": 2,
+    "builds": [
+    { "src": "api/public/index.php", "use": "@vercel/php" },
+    { "src": "package.json", "use": "@vercel/static-build" }
+  ],
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.6.0"
@@ -14,12 +18,8 @@
             "src": "/(.*)",
             "dest": "/api/index.php"
         },
-        {
-            "src": "/build/(.*)",
-            "dest": "/public/build/$1",
-            "headers": {
-                "Cache-Control": "public, max-age=31536000, immutable"
-            }
+        { "src": "/(css|js|images|build)/(.*)", 
+         "dest": "/public/$1/$2" 
         }
     ],
     "env": {
