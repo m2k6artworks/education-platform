@@ -1,9 +1,5 @@
 {
     "version": 2,
-    "builds": [
-    { "src": "api/public/index.php", "use": "@vercel/php" },
-    { "src": "package.json", "use": "@vercel/static-build" }
-  ],
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.6.0"
@@ -44,5 +40,6 @@
         "DB_PASSWORD": "9d565d8f12379be74fcd3cadc8ae1ba11aafb179",
         "DB_SCHEMA": "laravel"
     },
+    "buildCommand": "npm run build && php artisan config:cache",
     "outputDirectory": "public"
 }
