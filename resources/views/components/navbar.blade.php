@@ -39,9 +39,14 @@
         Logout <span aria-hidden="true">&rarr;</span>
       </button>
     </form>
-  @if(auth()->check() && auth()->user()->hasAnyRole(['admin', 'creator']))
-  <a href="{{ route('courses.create') }}" class="text-sm/6 font-semibold text-gray-900 hover:text-indigo-600">Create Course</a>
+@if(auth()->check())
+  @if(auth()->user()->hasRole('creator'))
+    <a href="{{ route('creator.dashboard') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Dashboard</a>
+    <a href="{{ route('courses.create') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Create Course</a>
+  @elseif(auth()->user()->hasRole('admin'))
+    <a href="{{ route('admin.dashboard') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Admin Dashboard</a>
   @endif
+@endif
   @else
     <a href="{{ route('login') }}" class="text-sm/6 font-semibold text-gray-900 hover:text-indigo-600">Log in</a>
     <a href="{{ route('register') }}" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
