@@ -8,7 +8,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-build: {
+    build: {
         outDir: 'public/build',
         manifest: true // Ensures manifest.json is generated
     },
