@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "public/index.php",
+      "use": "@vercel/php"
+    },
+    {
+      "src": "public/build/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/build/(.*)",
+      "dest": "/public/build/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "public/index.php"
+    }
+  ],
+  "env": {
+    "APP_ENV": "production",
+    "APP_KEY": "your-app-key",
+    "APP_URL": "https://your-vercel-domain.vercel.app",
+    "APP_DEBUG": "false",
+    "DB_CONNECTION": "pgsql",
+    "DB_HOST": "your-postgres-host",
+    "DB_PORT": "5432",
+    "DB_DATABASE": "your-database-name",
+    "DB_USERNAME": "your-database-user",
+    "DB_PASSWORD": "your-database-password"
+  }
+}
