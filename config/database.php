@@ -93,8 +93,9 @@ return [
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => 'public',
-            'sslmode' => 'prefer',
+            'search_path' => 'laravel',
+            'schema' => env('DB_SCHEMA', 'public'),  // Tambahkan baris ini
+            'sslmode' => 'disable',
         ],
 
         'sqlsrv' => [
