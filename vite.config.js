@@ -8,8 +8,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    server: {
-        host: 'localhost',
-        port: 5173,
+build: {
+        outDir: 'public/build',
+        manifest: true // Ensures manifest.json is generated
     },
 });
