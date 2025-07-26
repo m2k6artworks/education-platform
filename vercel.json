@@ -20,7 +20,12 @@
         {
             "src": "/build/(.*)",
             "dest": "/build/$1"
+        },
+        { 
+            "src": "/(.*\\.(?:css|js|png|jpg|jpeg|gif|svg|ico|ttf|woff|woff2|eot|otf|webp|avif|txt))$",
+            "dest": "/public/$1"
         }
+
     ],
     "env": {
         "APP_ENV": "production",
