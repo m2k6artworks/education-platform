@@ -35,6 +35,9 @@ Thumbs.db
 # Vite
 /public/build
 /build
+#!public/build/
+#!public/build/manifest.json
+#!public/build/assets/*
 
 # Composer
 composer.lock
