@@ -33,8 +33,8 @@ Thumbs.db
 /storage/logs/*
 
 # Vite
-/public/build
-/build
+#/public/build
+#build
 #!public/build/
 #!public/build/manifest.json
 #!public/build/assets/*
