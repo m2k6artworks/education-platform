@@ -12,4 +12,5 @@ export default defineConfig({
         outDir: 'public/build',
         manifest: 'manifest.json', // Explicitly set manifest file name
     },
+    base: '/build/'
 });
