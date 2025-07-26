@@ -17,10 +17,6 @@
         { "src": "/(css|js|images|build)/(.*)", 
          "dest": "/public/$1/$2" 
         },
-        {
-            "src": "/build/.vite/(.*)",
-            "dest": "/build/$1"
-        },
         { 
             "src": "/(.*\\.(?:css|js|png|jpg|jpeg|gif|svg|ico|ttf|woff|woff2|eot|otf|webp|avif|txt))$",
             "dest": "/public/$1"
