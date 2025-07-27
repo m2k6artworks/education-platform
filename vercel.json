@@ -52,12 +52,12 @@
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie",
-        "DB_URL": "postgresql://educationplatform_acresnoton:9d565d8f12379be74fcd3cadc8ae1ba11aafb179@limu5j.h.filess.io:5434/educationplatform_acresnoton?search_path=laravel",
-        "DB_HOST": "limu5j.h.filess.io",
+        "DB_URL": "",
+        "DB_HOST": "",
         "DB_PORT": "5434",
-        "DB_DATABASE": "educationplatform_acresnoton",
-        "DB_USERNAME": "educationplatform_acresnoton",
-        "DB_PASSWORD": "9d565d8f12379be74fcd3cadc8ae1ba11aafb179",
+        "DB_DATABASE": "",
+        "DB_USERNAME": "",
+        "DB_PASSWORD": "",
         "DB_SCHEMA": "laravel"
     },
     "outputDirectory": "public"
