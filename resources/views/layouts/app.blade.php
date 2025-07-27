@@ -32,6 +32,12 @@
             <p>Loading, Please Wait..</p>
         </div>
     </div>
+
+    <!-- NAMA KELOMPOK:
+        1. MUHAMMAD KETSAR ALI ABI WAHID (230401070204)
+        2. MUHAMMAD ZIDAN KHALIL GIBRAN (230401070209)
+        3. ANDRE NUR SETYAWAN (230401010181) 
+    -->
     
     <!-- Navbar -->
     @include('components.navbar')

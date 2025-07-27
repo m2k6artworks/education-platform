@@ -21,7 +21,7 @@ class CreatorDashboardController extends Controller
     public function edit(Course $course)
     {
         // Hanya izinkan edit kalau course milik user tersebut
-        if ($course->user_id !== Auth::id()) {
+        if ($course->user_id != Auth::id()) {
             abort(403);
         }
 
@@ -32,7 +32,7 @@ class CreatorDashboardController extends Controller
     // Simpan hasil edit
     public function update(Request $request, Course $course)
     {
-        if ($course->user_id !== Auth::id()) {
+        if ($course->user_id != Auth::id()) {
             abort(403);
         }
 
@@ -112,7 +112,7 @@ class CreatorDashboardController extends Controller
     // Hapus kursus
     public function destroy(Course $course)
     {
-        if ($course->user_id !== Auth::id()) {
+        if ($course->user_id != Auth::id()) {
             abort(403);
         }
 
