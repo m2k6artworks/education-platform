@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CreatorDashboardController extends Controller
 {
@@ -56,27 +57,50 @@ class CreatorDashboardController extends Controller
         switch ($request->content_type) {
             case 'article':
                 $course->description = $request->article_content;
+                // Clear all other content fields when switching to article
+                $course->clearOtherContentFields();
                 break;
+                
             case 'video':
                 if ($request->video_option === 'upload' && $request->hasFile('video_file')) {
+                    // Delete old video file if exists
+                    $course->deleteFile('video_path');
                     $course->video_path = $request->file('video_file')->store('videos', 'public');
+                    $course->video_url = null; // Clear URL when uploading file
                 } elseif ($request->video_option === 'url') {
+                    // Delete old video file if exists
+                    $course->deleteFile('video_path');
                     $course->video_url = $request->video_url;
                 }
+                // Clear other content fields
+                $course->clearOtherContentFields('video_path');
                 break;
+                
             case 'audio':
                 if ($request->hasFile('audio_file')) {
+                    // Delete old audio file if exists
+                    $course->deleteFile('audio_path');
                     $course->audio_path = $request->file('audio_file')->store('audio', 'public');
                 }
+                // Clear other content fields
+                $course->clearOtherContentFields('audio_path');
                 break;
+                
             case 'pdf':
                 if ($request->hasFile('pdf_file')) {
+                    // Delete old PDF file if exists
+                    $course->deleteFile('pdf_path');
                     $course->pdf_path = $request->file('pdf_file')->store('pdfs', 'public');
                 }
+                // Clear other content fields
+                $course->clearOtherContentFields('pdf_path');
                 break;
         }
 
+        // Handle thumbnail update
         if ($request->hasFile('thumbnail')) {
+            // Delete old thumbnail if exists
+            $course->deleteFile('thumbnail');
             $course->thumbnail = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
@@ -91,6 +115,9 @@ class CreatorDashboardController extends Controller
         if ($course->user_id !== Auth::id()) {
             abort(403);
         }
+
+        // Delete all associated files before deleting the course
+        $course->deleteAllFiles();
 
         $course->delete();
 

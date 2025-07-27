@@ -57,14 +57,14 @@ class CourseController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'thumbnail' => 'nullable|image',
+            'thumbnail' => 'nullable|image|max:2048',
             'content_type' => 'required|in:article,video,audio,pdf',
-            'description' => 'nullable|string',
             'video_option' => 'nullable|in:upload,url',
-            'video_file' => 'nullable|file|mimetypes:video/*',
+            'video_file' => 'nullable|file|mimes:mp4,avi,mov|max:102400', // 100MB
             'video_url' => 'nullable|url',
-            'audio_file' => 'nullable|file|mimes:mp3',
-            'pdf_file' => 'nullable|file|mimes:pdf',
+            'audio_file' => 'nullable|file|mimes:mp3|max:51200', // 50MB
+            'pdf_file' => 'nullable|file|mimes:pdf|max:10240', // 10MB
+            'article_content' => 'nullable|string',
         ]);
 
         // Upload thumbnail (optional)
@@ -126,15 +126,15 @@ class CourseController extends Controller
         return view('courses.my_submissions', compact('courses'));
     }
 
-public function enroll(Request $request, Course $course)
-{
-    $user = auth()->user();
+    public function enroll(Request $request, Course $course)
+    {
+        $user = auth()->user();
 
-    // Cek apakah user sudah terdaftar
-    if (!$user->enrolledCourses()->where('course_id', $course->id)->exists()) {
-        $user->enrolledCourses()->attach($course->id);
+        // Cek apakah user sudah terdaftar
+        if (!$user->enrolledCourses()->where('course_id', $course->id)->exists()) {
+            $user->enrolledCourses()->attach($course->id);
+        }
+
+        return redirect()->route('courses.show', $course)->with('success', 'Berhasil mendaftar ke kursus!');
     }
-
-    return redirect()->route('courses.show', $course)->with('success', 'Berhasil mendaftar ke kursus!');
-}
 }

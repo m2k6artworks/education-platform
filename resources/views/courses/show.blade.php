@@ -15,30 +15,39 @@
                 <div class="col-12 col-lg-8 mb-4 mb-lg-0">
                     <div class="card border-0" style="border-radius: 15px;">
                         <div class="card-body p-0">
-                            @if($mainContent && $mainContent->content_type === 'video')
+                            @if($course->content_type === 'video')
                                 <div class="position-relative">
-                                    @if(Str::startsWith($mainContent->content, 'http'))
+                                    @if(Str::startsWith($course->video_url, 'http'))
                                         <!-- Embed YouTube -->
                                         <div class="ratio ratio-16x9">
-                                            <iframe src="https://www.youtube.com/embed/{{ Str::after($mainContent->content, 'v=') }}"
+                                            <iframe src="https://www.youtube.com/embed/{{ Str::after($course->video_url, 'v=') }}"
                                                     frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                     allowfullscreen style="border-radius: 15px 15px 0 0;"></iframe>
                                         </div>
                                     @else
                                         <!-- Play Uploaded Video -->
                                         <video controls class="w-100" style="border-radius: 15px 15px 0 0;">
-                                            <source src="{{ asset('storage/' . $mainContent->content) }}" type="video/mp4">
+                                            <source src="{{ asset('storage/' . $course->video_path) }}" type="video/mp4">
                                             Browser kamu tidak mendukung pemutar video.
                                         </video>
                                     @endif
                                 </div>
-                            @elseif($mainContent && $mainContent->content_type === 'article')
+                            @elseif($course->content_type === 'pdf')
                                 <div class="ratio ratio-16x9" style="border-radius: 15px 15px 0 0; overflow: hidden;">
-                                    <iframe src="{{ Storage::url($mainContent->content) }}" class="w-100 h-100" frameborder="0"></iframe>
+                                    <iframe src="{{ Storage::url($course->pdf_path) }}" class="w-100 h-100" frameborder="0"></iframe>
                                 </div>
-                            @elseif($mainContent && $mainContent->content_type === 'pdf')
-                                <div class="d-flex align-items-center justify-content-center">
-                                    {{ $mainContent->content }} 
+                            @elseif($course->content_type === 'audio')
+                                <div class="d-flex align-items-center justify-content-center" style="height: 120px; background: #f8f9fa; border-radius: 15px 15px 0 0;">
+                                    <audio controls style="width: 100%;">
+                                        <source src="{{ asset('storage/' . $course->audio_path) }}" type="audio/mpeg">
+                                        Browser kamu tidak mendukung pemutar audio.
+                                    </audio>
+                                </div>
+                            @elseif($course->content_type === 'article')
+                                <div class="card border-0" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                    <div class="card-body">
+                                        {!! $course->description !!}
+                                    </div>
                                 </div>
                             @else
                                 <div class="d-flex align-items-center justify-content-center" style="height: 400px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px 15px 0 0;">
