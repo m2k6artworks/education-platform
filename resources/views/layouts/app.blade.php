@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{{ asset('vendor/css/style.css') }}">
     <link rel="shortcut icon" href="{{ asset('icons/logo-circle.png') }}" type="image/x-icon">
 
+    @stack('styles')
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="{{ asset('vendor/tiny-slider/tiny-slider.css') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,7 +37,7 @@
     @include('components.navbar')
 
     <!-- Hero Section -->
-    @if(!auth()->check())
+    @if(!auth()->check() && !request()->routeIs('login') && !request()->routeIs('register'))
         @if(View::hasSection('hero'))
             @yield('hero')
         @else
@@ -59,6 +61,7 @@
     @include('components.footer')
 
     <!-- Scripts -->
+    <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap-5/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('vendor/tiny-slider/tiny-slider.js') }}"></script>
     <script src="{{ asset('vendor/isotope/isotope.min.js') }}"></script>

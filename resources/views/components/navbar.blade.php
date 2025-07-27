@@ -36,7 +36,7 @@
                 @auth
                     @if(auth()->user()->hasRole('admin'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
+                            <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
                         </li>
                     @endif
                 @endauth
@@ -78,9 +78,9 @@
             @auth
                 @if(auth()->user()->hasRole('creator'))
                     <a type="button" class="btn px-4 mx-2" href="{{ route('creator.dashboard') }}">Dashboard</a>
-                    <a type="button" class="btn btn-primary px-5" href="{{ route('courses.create') }}">Create Course</a>
+                    <a type="button" class="btn btn-primary px-5" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                 @elseif(auth()->user()->hasRole('admin'))
-                    <a type="button" class="btn px-4 mx-2" href="{{ route('admin.dashboard') }}">Admin</a>
+                    <a type="button" class="btn px-4 mx-2" href="{{ route('admin.dashboard') }}">Dashboard</a>
                     <a type="button" class="btn btn-primary px-5" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                 @else
                     <a type="button" class="btn px-4 mx-2" href="{{ route('user.my-courses') }}">My Courses</a>

@@ -1,72 +1,88 @@
-@extends('layouts.guest')
+@extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-    <div class="w-full max-w-5xl bg-white rounded-xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
-        
-        {{-- Kiri (Optional info / welcome text) --}}
-        <div class="hidden md:flex items-center justify-center bg-indigo-100 p-10">
-            <div>
-                <h2 class="text-2xl font-bold text-indigo-700 mb-4">Selamat Datang!</h2>
-                <p class="text-gray-600">Buat akun dan mulai belajar dengan berbagai kursus menarik.</p>
+<div class="bg-light pt-3 pb-5 px-3 px-sm-0 col-12">
+    <div class="container d-flex flex-wrap justify-content-center px-0">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="text-center mb-4">
+                <a href="{{ route('home') }}" class="d-inline-block mb-3">
+                    <img src="{{ asset('icons/logo-circle.svg') }}" alt="Kyulearn" height="60">
+                </a>
+                <h2 class="mb-2" style="font-weight: 600">Join Our Learning Community</h2>
+                <p class="text-muted">Create your account and start your learning journey today.</p>
             </div>
-        </div>
-
-        {{-- Kanan (Form) --}}
-        <div class="p-8 md:p-12">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Daftar Akun Baru</h1>
-
-            <form action="{{ route('register') }}" method="POST" class="space-y-5">
-                @csrf
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
-                    <input type="text" name="name" id="name"
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3"
-                        required value="{{ old('name') }}">
-                    @error('name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            
+            <div class="card border-0" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="card-body p-4 p-md-5">
+                    <h4 class="text-center mb-4" style="font-weight: 600">Create Account</h4>
+                    
+                    <form action="{{ route('register') }}" method="POST">
+                        @csrf
+                        
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" name="name" id="name" class="form-control" 
+                                   placeholder="Enter your full name" required value="{{ old('name') }}">
+                            @error('name') 
+                                <div class="text-danger mt-1" style="font-size: 0.875rem;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" name="email" id="email" class="form-control" 
+                                   placeholder="Enter your email" required value="{{ old('email') }}">
+                            @error('email') 
+                                <div class="text-danger mt-1" style="font-size: 0.875rem;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" id="password" class="form-control" 
+                                   placeholder="Create a strong password" required>
+                            @error('password') 
+                                <div class="text-danger mt-1" style="font-size: 0.875rem;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Confirm Password</label>
+                            <input type="password" name="password_confirmation" id="password_confirmation" 
+                                   class="form-control" placeholder="Confirm your password" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="role" class="form-label">Account Type</label>
+                            <select name="role" id="role" class="form-select" required>
+                                <option value="">-- Choose Account Type --</option>
+                                <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>
+                                    Student - Learn and take courses
+                                </option>
+                                <option value="creator" {{ old('role') == 'creator' ? 'selected' : '' }}>
+                                    Instructor - Create and teach courses
+                                </option>
+                            </select>
+                            @error('role') 
+                                <div class="text-danger mt-1" style="font-size: 0.875rem;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3 d-grid">
+                            <button type="submit" class="btn btn-primary py-2" style="font-weight: 600;">
+                                Create Account
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <p class="mb-0">
+                            Already have an account? 
+                            <a href="{{ route('login') }}" class="text-primary fw-bold">Sign In</a>
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" name="email" id="email"
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3"
-                        required value="{{ old('email') }}">
-                    @error('email') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" name="password" id="password"
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3"
-                        required>
-                    @error('password') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label for="password_confirmation"
-                        class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation"
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3"
-                        required>
-                </div>
-                <div>
-                    <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Daftar Sebagai</label>
-                    <select name="role" id="role"
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3"
-                        required>
-                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User (Peserta)</option>
-                        <option value="creator" {{ old('role') == 'creator' ? 'selected' : '' }}>Creator (Pengajar)</option>
-                    </select>
-                    @error('role') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                </div>
-
-                <button type="submit"
-                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md bg-indigo-600 text-white font-semibold shadow-sm hover:bg-indigo-700 transition-colors">
-                    Daftar
-                </button>
-            </form>
-
-            <p class="mt-6 text-center text-sm text-gray-600">
-                Sudah punya akun?
-                <a href="{{ route('login') }}" class="font-semibold text-indigo-600 hover:text-indigo-500">Login di sini</a>
-            </p>
+            </div>
         </div>
     </div>
 </div>

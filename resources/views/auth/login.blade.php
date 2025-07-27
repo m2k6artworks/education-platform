@@ -1,63 +1,69 @@
-@extends('layouts.guest')
+@extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-blue-100 py-12 px-4">
-    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <!-- Left Side (Illustration or Info) -->
-        <div class="hidden md:flex flex-col justify-center items-center bg-indigo-50 p-8">
-            <img src="{{ asset('images/login-illustration.svg') }}" alt="Login Illustration" class="w-3/4 mb-6">
-            <h2 class="text-2xl font-bold text-indigo-700 mb-2">Selamat Datang Kembali!</h2>
-            <p class="text-gray-500 text-center">Akses kursus terbaik dan tingkatkan kemampuanmu bersama kami.</p>
-        </div>
-        <!-- Right Side (Form) -->
-        <div class="flex flex-col justify-center p-8">
-            <div class="text-center mb-6">
-                <a href="{{ route('home') }}" class="flex justify-center mb-4">
-                    <span class="inline-block bg-indigo-600 text-white rounded-full p-3 shadow-lg">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
-                        </svg>
-                    </span>
+<div class="bg-light pt-3 pb-5 px-3 px-sm-0 col-12">
+    <div class="container d-flex flex-wrap justify-content-center px-0">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
+            <div class="text-center mb-4">
+                <a href="{{ route('home') }}" class="d-inline-block mb-3">
+                    <img src="{{ asset('icons/logo-circle.svg') }}" alt="Kyulearn" height="60">
                 </a>
-                <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Masuk ke Akun Anda</h1>
-                <p class="text-gray-500">Silakan login untuk melanjutkan.</p>
+                <h2 class="mb-2" style="font-weight: 600">Welcome Back!</h2>
+                <p class="text-muted">Sign in to access your courses and continue learning.</p>
             </div>
-            <form action="{{ route('login') }}" method="POST" class="space-y-6">
-                @csrf
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" name="email" id="email" autocomplete="email" required
-                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3 text-base"
-                        value="{{ old('email') }}">
-                    @error('email') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" name="password" id="password" autocomplete="current-password" required
-                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3 text-base">
-                    @error('password') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember" name="remember" type="checkbox"
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                        <label for="remember" class="ml-2 block text-sm text-gray-700">
-                            Ingat saya
-                        </label>
+            
+            <div class="card border-0" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="card-body p-4 p-md-5">
+                    <h4 class="text-center mb-4" style="font-weight: 600">Sign In</h4>
+                    
+                    <form action="{{ route('login') }}" method="POST">
+                        @csrf
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" name="email" id="email" class="form-control" 
+                                   placeholder="Enter your email" required value="{{ old('email') }}">
+                            @error('email') 
+                                <div class="text-danger mt-1" style="font-size: 0.875rem;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" id="password" class="form-control" 
+                                   placeholder="Enter your password" required>
+                            @error('password') 
+                                <div class="text-danger mt-1" style="font-size: 0.875rem;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 d-grid">
+                            <button type="submit" class="btn btn-primary py-2" style="font-weight: 600;">
+                                Sign In
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <p class="mb-2">
+                            <a href="#" class="text-muted" style="text-decoration: none;">
+                                <i class="fas fa-lock me-1"></i>Forgot your password?
+                            </a>
+                        </p>
+                        <p class="mb-0">
+                            Don't have an account? 
+                            <a href="{{ route('register') }}" class="text-primary fw-bold">Sign Up</a>
+                        </p>
                     </div>
-                    <div class="text-sm">
-                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Lupa password?</a>
-                    </div>
                 </div>
-                <button type="submit"
-                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md bg-indigo-600 text-white font-semibold shadow-sm hover:bg-indigo-700 transition-colors text-base">
-                    Login
-                </button>
-            </form>
-            <p class="mt-6 text-center text-sm text-gray-600">
-                Belum punya akun?
-                <a href="{{ route('register') }}" class="font-semibold text-indigo-600 hover:text-indigo-500">Daftar sekarang</a>
-            </p>
+            </div>
         </div>
     </div>
 </div>

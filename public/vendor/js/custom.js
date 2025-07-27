@@ -15,27 +15,88 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Filter buttons functionality
-        const filterButtons = document.querySelectorAll("#filterButtons a");
-        
-        filterButtons.forEach((filterBtn) => {
-            filterBtn.addEventListener("click", (e) => {
-                e.preventDefault();
+              const filterButtons = document.querySelectorAll("#filterButtons a");
+      
+      filterButtons.forEach((filterBtn) => {
+        filterBtn.addEventListener("click", (e) => {
+          e.preventDefault();
 
-                // Remove active class from all buttons
-                filterButtons.forEach((btn) => {
-                    btn.classList.add("bg-white");
-                    btn.classList.remove("btn-secondary");
-                });
+          // Remove active class from all buttons
+          filterButtons.forEach((btn) => {
+            btn.classList.add("bg-white");
+            btn.classList.remove("btn-secondary");
+          });
 
-                // Add active class to clicked button
-                filterBtn.classList.remove("bg-white");
-                filterBtn.classList.add("btn-secondary");
+          // Add active class to clicked button
+          filterBtn.classList.remove("bg-white");
+          filterBtn.classList.add("btn-secondary");
 
-                // Filter the grid
-                const filterValue = filterBtn.dataset.filter;
-                gridArea.arrange({ filter: filterValue });
-            });
+          // Filter the grid
+          const filterValue = filterBtn.dataset.filter;
+          gridArea.arrange({ filter: filterValue });
         });
+      });
+
+      // Search functionality
+      const searchInput = document.querySelector("#searchInput");
+      const searchBtn = document.querySelector("#searchBtn");
+
+      if (searchInput) {
+        searchInput.addEventListener("keyup", debounce(function () {
+          searchRegex = new RegExp(searchInput.value, "gi");
+          gridArea.arrange();
+        }, 200));
+      }
+
+      if (searchBtn) {
+        searchBtn.addEventListener("click", function() {
+          searchRegex = new RegExp(searchInput.value, "gi");
+          gridArea.arrange();
+        });
+      }
+
+      // Sort functionality
+      const selectSortBy = document.querySelector("#sortBy");
+
+      if (selectSortBy) {
+        selectSortBy.addEventListener("change", (e) => {
+          const value = selectSortBy.value;
+          switch (value) {
+            case "nameAsc":
+              gridArea.arrange({ sortBy: "name", sortAscending: true });
+              break;
+            case "nameDesc":
+              gridArea.arrange({ sortBy: "name", sortAscending: false });
+              break;
+            case "highRate":
+              gridArea.arrange({ sortBy: "rating", sortAscending: false });
+              break;
+            case "lowRate":
+              gridArea.arrange({ sortBy: "rating", sortAscending: true });
+              break;
+            case "highPrice":
+              gridArea.arrange({ sortBy: "price", sortAscending: false });
+              break;
+            case "lowPrice":
+              gridArea.arrange({ sortBy: "price", sortAscending: true });
+              break;
+          }
+        });
+      }
+
+      function debounce(fn, threshold) {
+        var timeout;
+        threshold = threshold || 100;
+        return function debounced() {
+          clearTimeout(timeout);
+          var args = arguments;
+          var _this = this;
+          function delayed() {
+            fn.apply(_this, args);
+          }
+          timeout = setTimeout(delayed, threshold);
+        };
+      }
     }
 
     // Tiny Slider for Testimonies

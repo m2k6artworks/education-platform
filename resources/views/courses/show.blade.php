@@ -8,7 +8,7 @@
         @auth
             @if($isEnrolled)
                 @php
-                    $mainContent = $contents->first();
+                    $mainContent = $course->first();
                 @endphp
 
                 <!-- Course Video/Content Section -->
@@ -32,9 +32,13 @@
                                         </video>
                                     @endif
                                 </div>
-                            @elseif($mainContent && $mainContent->content_type === 'pdf')
+                            @elseif($mainContent && $mainContent->content_type === 'article')
                                 <div class="ratio ratio-16x9" style="border-radius: 15px 15px 0 0; overflow: hidden;">
                                     <iframe src="{{ Storage::url($mainContent->content) }}" class="w-100 h-100" frameborder="0"></iframe>
+                                </div>
+                            @elseif($mainContent && $mainContent->content_type === 'pdf')
+                                <div class="d-flex align-items-center justify-content-center">
+                                    {{ $mainContent->content }} 
                                 </div>
                             @else
                                 <div class="d-flex align-items-center justify-content-center" style="height: 400px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px 15px 0 0;">
@@ -121,13 +125,13 @@
                     <div class="card border-0" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                         <div class="card-body">
                             <ul class="nav nav-tabs border-0" id="courseTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
+                                <!-- <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">
                                         Overview
                                     </button>
-                                </li>
+                                </li> -->
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button" role="tab">
+                                    <button class="nav-link active" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button" role="tab">
                                         Comments
                                     </button>
                                 </li>
@@ -135,7 +139,7 @@
                             
                             <div class="tab-content mt-4" id="courseTabsContent">
                                 <!-- Overview Tab -->
-                                <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                                <!-- <div class="tab-pane fade show active" id="overview" role="tabpanel">
                                     <div class="mb-4">
                                         <h5>Course Description</h5>
                                         @if($course->category)
@@ -158,19 +162,22 @@
                                             </a>
                                         </div>
                                     @endif
-                                </div>
+                                </div> -->
                                 
                                 <!-- Comments Tab -->
-                                <div class="tab-pane fade" id="comments" role="tabpanel">
+                                <div class="tab-pane fade show active" id="comments" role="tabpanel">
                                     <div class="mb-4">
                                         <h5>Add Comment</h5>
                                         <form action="{{ route('comments.store', $course) }}" method="POST">
                                             @csrf
                                             <div class="mb-3">
-                                                <textarea name="content" class="form-control" rows="3" placeholder="Share your thoughts..." required></textarea>
+                                                <div id="snow-editor" style="height: 200px;">
+                                                    <p></p>
+                                                </div>
+                                                <input type="hidden" name="content" id="comment-content" required>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">
-                                                Post Comment
+                                            <button type="submit" class="btn btn-primary" onclick="submitComment(event)">
+                                                <i class="fas fa-paper-plane me-2"></i>Post Comment
                                             </button>
                                         </form>
                                     </div>
@@ -226,4 +233,55 @@
         @endauth
     </div>
 </div>
+@push('styles')
+<!-- Plugins css -->
+<link href="{{ asset('assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" />
+@endpush
+
+@push('scripts')
+<!-- Plugins js -->
+<script src="{{ asset('assets/libs/quill/quill.min.js') }}"></script>
+
+<!-- Init js-->
+<!-- <script src="{{ asset('assets/js/pages/form-quilljs.init.js') }}"></script> -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Snow Editor with enhanced toolbar
+    var quill = new Quill('#snow-editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'font': [] }, { 'size': [] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'script': 'super' }, { 'script': 'sub' }],
+                [{ 'header': [false, 1, 2, 3, 4, 5, 6] }, 'blockquote', 'code-block'],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                ['direction', { 'align': [] }],
+                ['link', 'image', 'video'],
+                ['clean']
+            ]
+        },
+        placeholder: 'Share your thoughts about this course...'
+    });
+
+    // Handle form submission
+    window.submitComment = function(event) {
+        event.preventDefault();
+        
+        // Get the HTML content from Quill editor
+        var content = quill.root.innerHTML;
+        
+        // Set the hidden input value
+        document.getElementById('comment-content').value = content;
+        
+        // Submit the form
+        event.target.closest('form').submit();
+    };
+});
+</script>
+@endpush
 @endsection

@@ -12,7 +12,10 @@
         
         <!-- Course Categories -->
         <div class="row justify-content-between w-100 h-100 mb-5">
-            @foreach($categories as $category)
+            @php
+                $popularCategories = $categories->whereIn('name', ['Blockchain', 'Programming', 'Management', 'Cloud Computing']);
+            @endphp
+            @foreach($popularCategories as $category)
             <div class="col-12 col-md-6 col-lg-3 mb-3">
                 <a href="{{ route('courses.index', ['category' => $category->id]) }}" class="card border-0 h-100 text-decoration-none">
                     <div class="pt-3 pb-3 px-3 text-start">
@@ -30,22 +33,6 @@
             @endforeach
         </div>
 
-        <!-- Category Filter -->
-        <div class="col-12 mb-4">
-            <div class="d-flex flex-wrap justify-content-center align-items-center">
-                <a href="{{ route('courses.index') }}" 
-                   class="btn {{ request('category') ? 'btn-outline-primary' : 'btn-primary' }} px-4 me-2 mb-2">
-                    All Courses
-                </a>
-                @foreach($categories as $category)
-                    <a href="{{ route('courses.index', ['category' => $category->id]) }}" 
-                       class="btn {{ request('category') == $category->id ? 'btn-primary' : 'btn-outline-primary' }} px-4 me-2 mb-2">
-                        {{ $category->name }}
-                    </a>
-                @endforeach
-            </div>
-        </div>
-
         <!-- Available Courses -->
         <div class="col-12" id="allCourses">
             <h4 class="mb-4 text-center" style="font-weight: 600">
@@ -55,18 +42,46 @@
                 @endif
             </h4>
             
+            <!-- Search and Sort Section -->
+            <div class="d-flex flex-wrap col-12 mb-4">
+                <div class="col-12 col-lg-8 px-1">
+                    <div class="mb-3 input-group">
+                        <input type="text" class="form-control border-0" id="searchInput" 
+                               placeholder="Search course name or teacher" 
+                               style="font-size: 0.9rem; box-shadow: none !important" />
+                        <button class="btn btn-primary input-group-text py-3" id="searchBtn">
+                            <i class="fas fa-search text-white"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 px-1">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text bg-white border-0 py-3 pe-0" for="sortBy" 
+                               style="font-size: 0.9rem; color: #cacaca; font-weight: 600">
+                            Sort By :
+                        </label>
+                        <select class="form-select border-0 py-3 ps-1" id="sortBy" 
+                                style="font-size: 0.9rem; box-shadow: none !important">
+                            <option selected value="nameAsc">Name (Ascending)</option>
+                            <option value="nameDesc">Name (Descending)</option>
+                            <option value="highRate">Highest Rating</option>
+                            <option value="lowRate">Lowest Rating</option>
+                            <option value="highPrice">Highest Price</option>
+                            <option value="lowPrice">Lowest Price</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Isotope Filter Buttons -->
             <div class="col-12 d-flex flex-wrap justify-content-between align-items-center mb-4">
-                <div id="filterButtons" class="d-flex flex-row col-12 col-md-auto overflow-auto p-1">
+                <div id="filterButtons" class="d-flex flex-row col-12 overflow-auto p-1">
                     <a href="#" data-filter="*" class="btn btn-secondary px-4 me-2 col-auto mb-2">All Course</a>
                     @foreach($categories as $category)
                         <a href="#" data-filter=".category-{{ $category->id }}" class="btn bg-white px-4 me-2 col-auto mb-2">
                             {{ $category->name }}
                         </a>
                     @endforeach
-                </div>
-                <div class="col-12 col-md-auto text-end mt-3 mt-md-0">
-                    <a class="link-primary" style="font-weight: 600" href="{{ route('courses.index') }}">Show All</a>
                 </div>
             </div>
             
@@ -177,7 +192,7 @@
                             "The quality of courses on Kyulearn is exceptional. I've learned so much from the practical projects and real-world examples. The instructors are experts in their fields and the community is very helpful. This platform has been instrumental in my career growth."
                         </p>
                         <div class="d-flex flex-wrap align-items-center mt-5">
-                            <h5 class="col-12" style="font-weight: 600">Wiji Subekti</h5>
+                            <h5 class="col-12" style="font-weight: 600">Andre Nur Setyawan</h5>
                             <p>Senior Developer at TechCorp</p>
                         </div>
                     </div>

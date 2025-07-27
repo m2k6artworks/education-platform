@@ -76,53 +76,42 @@ class CourseController extends Controller
         // Create Course
         $course = Course::create([
             'title' => $request->title,
-            'description' => $request->description ?? '-',
+            'description' => $request->article_content ?? '-',
             'thumbnail' => $thumbnailPath,
             'status' => 'pending',
             'user_id' => auth()->id(),
             'category_id' => $request->category_id,
+            'content_type' => $request->content_type,
         ]);
 
         // Handle Course Content based on type
-        $content = null;
-
         switch ($request->content_type) {
             case 'article':
-                $content = $request->description;
+                $course->description = $request->article_content;
                 break;
 
             case 'video':
                 if ($request->video_option === 'upload' && $request->hasFile('video_file')) {
-                    $path = $request->file('video_file')->store('videos', 'public');
-                    $content = $path;
+                    $course->video_path = $request->file('video_file')->store('videos', 'public');
                 } elseif ($request->video_option === 'url') {
-                    $content = $request->video_url;
+                    $course->video_url = $request->video_url;
                 }
                 break;
 
             case 'audio':
                 if ($request->hasFile('audio_file')) {
-                    $path = $request->file('audio_file')->store('audios', 'public');
-                    $content = $path;
+                    $course->audio_path = $request->file('audio_file')->store('audio', 'public');
                 }
                 break;
 
             case 'pdf':
                 if ($request->hasFile('pdf_file')) {
-                    $path = $request->file('pdf_file')->store('pdfs', 'public');
-                    $content = $path;
+                    $course->pdf_path = $request->file('pdf_file')->store('pdfs', 'public');
                 }
                 break;
         }
 
-        // Simpan konten jika ada
-        if ($content) {
-            CourseContent::create([
-                'course_id' => $course->id,
-                'content_type' => $request->content_type,
-                'content' => $content,
-            ]);
-        }
+        $course->save();
 
         return redirect()->route('home')->with('success', 'Course submitted for review.');
     }
