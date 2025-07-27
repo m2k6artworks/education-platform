@@ -30,14 +30,6 @@
             <p>Loading, Please Wait..</p>
         </div>
     </div>
-
-    <!-- Audio Tag -->
-    <audio id="background-music" class="d-none" src="{{ asset('assets/bg-music.mp3') }}" autoplay loop></audio>
-
-    <!-- Play/Pause Toggle Button -->
-    <div id="music-toggle" class="music-toggle">
-        <i id="toggle-icon" class="fas fa-pause"></i>
-    </div>
     
     <!-- Navbar -->
     @include('components.navbar')
@@ -97,6 +89,6 @@
         });
     </script>
 
-    @yield('scripts')
+    @stack('scripts')
 </body>
 </html>

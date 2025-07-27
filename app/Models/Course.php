@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Course extends Model
 {
     protected $fillable = [
-        'title', 'description', 'thumbnail', 'status', 'user_id', 'price', 'original_price', 'level'
+        'title', 'description', 'thumbnail', 'status', 'user_id', 'price', 'original_price', 'level', 'category_id'
     ];
 
     public function user(): BelongsTo
@@ -42,5 +42,10 @@ class Course extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }

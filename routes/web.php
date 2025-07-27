@@ -12,6 +12,9 @@ use App\Http\Controllers\UserCourseController;
 // Halaman utama (Home)
 Route::get('/', [CourseController::class, 'index'])->name('home');
 
+// Courses routes
+Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+
 // Guest routes (belum login)
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');

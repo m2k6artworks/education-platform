@@ -4,19 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseContent;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::where('status', 'approved')
-                    ->withCount(['students']) // ✅ Hapus 'reviews'
-                    ->latest()
-                    ->get();
+        $query = Course::where('status', 'approved')
+                    ->withCount(['students'])
+                    ->with(['category', 'creator'])
+                    ->latest();
 
-        return view('courses.index', compact('courses'));
+        // Filter by category if provided
+        if ($request->has('category') && $request->category !== 'all') {
+            $query->whereHas('category', function($q) use ($request) {
+                $q->where('id', $request->category);
+            });
+        }
+
+        $courses = $query->get();
+        $categories = Category::all();
+
+        return view('courses.index', compact('courses', 'categories'));
     }
 
     public function show(Course $course)
@@ -37,13 +48,15 @@ class CourseController extends Controller
 
     public function create()
     {
-        return view('courses.create');
+        $categories = Category::all();
+        return view('courses.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'thumbnail' => 'nullable|image',
             'content_type' => 'required|in:article,video,audio,pdf',
             'description' => 'nullable|string',
@@ -67,6 +80,7 @@ class CourseController extends Controller
             'thumbnail' => $thumbnailPath,
             'status' => 'pending',
             'user_id' => auth()->id(),
+            'category_id' => $request->category_id,
         ]);
 
         // Handle Course Content based on type

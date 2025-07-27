@@ -10,6 +10,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        // Seed categories first
+        $this->call(CategorySeeder::class);
+        
         // Create roles with specific IDs to match previous setup
         Role::updateOrCreate(
             ['id' => 1, 'name' => 'admin'],

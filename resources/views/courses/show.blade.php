@@ -55,6 +55,14 @@
                         <div class="card-body">
                             <h5 class="card-title mb-3">{{ $course->title }}</h5>
                             
+                            @if($course->category)
+                            <div class="mb-3">
+                                <span class="badge" style="background-color: {{ $course->category->color }}; color: white;">
+                                    {{ $course->category->name }}
+                                </span>
+                            </div>
+                            @endif
+                            
                             <!-- Course Progress -->
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -130,6 +138,14 @@
                                 <div class="tab-pane fade show active" id="overview" role="tabpanel">
                                     <div class="mb-4">
                                         <h5>Course Description</h5>
+                                        @if($course->category)
+                                        <div class="mb-3">
+                                            <strong>Category:</strong> 
+                                            <span class="badge" style="background-color: {{ $course->category->color }}; color: white;">
+                                                {{ $course->category->name }}
+                                            </span>
+                                        </div>
+                                        @endif
                                         <p class="text-muted">{{ $course->description }}</p>
                                     </div>
                                     

@@ -19,6 +19,20 @@
                 value="{{ old('title') }}">
         </div>
 
+        <!-- Category -->
+        <div>
+            <label for="category_id" class="block text-sm font-medium text-gray-700">Category <span class="text-red-500">*</span></label>
+            <select name="category_id" id="category_id" required
+                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-3">
+                <option value="">-- Choose Category --</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
         <!-- Thumbnail -->
         <div>
             <label for="thumbnail" class="block text-sm font-medium text-gray-700">Thumbnail (Optional)</label>
